@@ -11,7 +11,7 @@ class PigLatinizer
       letters  << "ay"
     end
     letters.join
-  end
+  #end
 
   def to_pig_latin(text)
     words = text.split(" ")
