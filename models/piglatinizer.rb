@@ -1,7 +1,7 @@
 require 'pry'
 
 class PigLatinizer
-  
+
 def piglatinize(word)
   return word if %w[and an in].include?(word) #one syllable exceptions
   letters = word.split("")
