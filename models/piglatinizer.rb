@@ -1,34 +1,38 @@
 require 'pry'
 
-def piglatinize(thing)
-  pig(thing)
-end
+class PigLatinizer
+  def self.translate(phrase)
+      phrase
+        .split(/ /)
+        .map {|word| PigLatin.new(word).translate}
+        .join(" ")
+    end
 
-def to_pig_latin(string)
-  pig(string)
-end
+    def initialize(word)
+      @word = word
+    end
 
-def pig(thing)
-  alpha = ('a'..'z').to_a + ('A'..'Z').to_a
-  vowels = %w[a e i o u] + %w[A E I O U]
-  consonants = alpha - vowels
+    def translate
+      return "#{word}ay" if begins_with_vowel_sound?
+      return "y#{word[0]}ay" if y_after_consonant?
+      rot = begins_with_qu? ? 2 : 1
+      PigLatin.new(word.chars.rotate(rot).join).translate
+    end
 
-  showme = []
-    input = thing.split(' ')
-      input.each do |word|
-          if word.length < 2
-             showme << word + "way"
-          elsif vowels.include?(word[0])
-             showme <<  word + "way"
-          elsif consonants.include?(word[0]) && consonants.include?(word[1]) && consonants.include?(word[2])
-             showme <<  word[3..-1] + word[0..2] + 'ay'
-          elsif consonants.include?(word[0]) && consonants.include?(word[1])
-             showme <<  word[2..-1] + word[0..1] + 'ay'
-          elsif consonants.include?(word[0])
-             showme <<  word[1..-1] + word[0] + 'ay'
-          else
-             showme <<  word + '?'
-          end
-      end
-  showme.join(', ').gsub(/,/, '')
+    private
+
+    attr_reader :word
+
+    def begins_with_vowel_sound?
+      word.start_with?("a", "e", "i", "o", "u", "xr", "yt")
+    end
+
+    def begins_with_qu?
+      word.start_with?("qu")
+    end
+
+    def y_after_consonant?
+      word.length == 2 && word[1] == "y"
+    end
+
 end
