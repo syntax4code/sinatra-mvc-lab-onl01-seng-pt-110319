@@ -8,6 +8,6 @@ end
 post '/piglatinize' do
    pl = PigLatinizer.new
    @piglatin = pl.piglatinize(params[:user_phrase])
-   erb :results
+   erb :piglatinize
 end
 end
