@@ -6,8 +6,8 @@ get '/' do
 end
 
 post '/piglatinize' do
-   pl = PigLatinizer.new
-   @piglatin = pl.piglatinize(params[:user_phrase])
-   erb :results
+  @text = params[:user_phrase]
+  @piglatinizer = PigLatinizer.new
+  erb :piglatinize
 end
 end
